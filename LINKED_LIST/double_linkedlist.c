@@ -58,6 +58,68 @@ int main()
     display(head);
 }*/
 
+// CREATING DOUBLE LINKED LIST BY USING DO WHILE LOOP
+/*#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+struct node *create()
+{
+    struct node *head=NULL,*newnode,*temp;
+    int choice,value;
+    do
+    {
+       newnode=(struct node*)malloc(sizeof(struct node));
+       printf("enter value:\n");
+       scanf("%d",&value);
+       newnode->data=value;
+       newnode->next=NULL;
+       newnode->prev=NULL;
+       if(head==NULL)
+       {
+        head=newnode;
+        temp=newnode;
+       }
+       else
+       {
+        temp->next=newnode;
+        newnode->prev=temp;
+        temp=newnode;
+       }
+       printf("Do you want to create another node?(1-yes / 0-no): ");
+       scanf("%d",&choice);
+    } while(choice==1);
+    return head;
+}
+void display(struct node *head)
+{
+    struct node *temp=head;
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return;
+    }
+    printf("\ndouble linked list elements are:\n");
+    while(temp!=NULL)
+    {
+        printf("%d<->",temp->data);
+        temp=temp->next;
+    }
+    printf("NULL");
+}
+int main()
+{
+    struct node *head;
+    head=create();
+    display(head);
+    return 0;
+}
+*/
+
 // inserting node at beginning in double linked list
 /*#include<stdio.h>
 #include<stdlib.h>
@@ -1237,3 +1299,270 @@ int main()
     display(head);
     return 0;
 }*/
+
+// CREATING A FULLY DOUBLY LINKED LIST WITH ALL OPERATIONS LIKE INSERTION(BEGINNING,END,AT POSITION) AND DELETION(BEGINNING,END,AT POSITION) LIKE MENU DRIVEN PROGRAM
+/*#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+struct node *create()
+{
+    struct node *head=NULL,*newnode,*temp;
+    int choice,value;
+    do
+    {
+        newnode=(struct node*)malloc(sizeof(struct node));
+        printf("enter value:\n");
+        scanf("%d",&value);
+        newnode->data=value;
+        newnode->prev=NULL;
+        newnode->next=NULL;
+        if(head==NULL)
+        {
+            head=newnode;
+            temp=newnode;
+        }
+        else
+        {
+            temp->next=newnode;
+            newnode->prev=temp;
+            temp=newnode;
+        }
+        printf("Do you want to enter another node (1:yes/0:no):\n");
+        scanf("%d",&choice);
+    } while(choice==1);
+    return head;
+}
+void display(struct node *head)
+{
+    struct node *temp=head;
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return;
+    }
+    printf("\ndouble linked list elements are:\n");
+    while(temp!=NULL)
+    {
+        printf("%d<->",temp->data);
+        temp=temp->next;
+    }
+    printf("NULL");
+}
+struct node *insert_beg(struct node *head)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    int value;
+    printf("enter value:\n");
+    scanf("%d",&value);
+    newnode->data=value;
+    newnode->next=NULL;
+    newnode->prev=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+    }
+    else
+    {
+        newnode->next=head;
+        head->prev=newnode;
+        head=newnode;
+    }
+    return head;
+}
+struct node *insert_end(struct node *head)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    struct node *temp;
+    int value;
+    printf("enter value:\n");
+    scanf("%d",&value);
+    newnode->data=value;
+    newnode->next=NULL;
+    newnode->prev=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+        return head;
+    }
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newnode;
+    newnode->prev=temp;
+    return head;
+}
+struct node *insert_pos(struct node *head)
+{
+    struct node *newnode,*temp;
+    int pos,value,i;
+    printf("enter position:\n");
+    scanf("%d",&pos);
+    if(pos<=0)
+    {
+        printf("invalid position");
+        return head;
+    }
+    newnode=(struct node*)malloc(sizeof(struct node));
+    printf("enter value:\n");
+    scanf("%d",&value);
+    newnode->data=value;
+    newnode->next=NULL;
+    newnode->prev=NULL;
+    if(pos==1)
+    {
+        newnode->next=head;
+        if(head!=NULL)
+        {
+            head->prev=newnode;
+        }
+        head=newnode;
+        return head;
+    }
+    temp=head;
+    for(i=0;i<pos-1&&temp!=NULL;i++)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL)
+    {
+        printf("position not found.");
+        return head;
+    }
+    newnode->next=temp->next;
+    newnode->prev=temp;
+    if(temp->next!=NULL)
+    {
+        temp->next->prev=newnode;
+    }
+    temp->next=newnode;
+    return head;
+}
+struct node *delete_beg(struct node *head)
+{
+    struct node *temp;
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return head;
+    }
+    temp=head;
+    head=head->next;
+    if(head!=NULL)
+    {
+        head->prev=NULL;
+    }
+    free(temp);
+    return head;
+}
+struct node *delete_end(struct node *head)
+{
+    struct node *temp,*prev;;
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return head;
+    }
+    if(head->next==NULL)
+    {
+        free(head);
+        return NULL;
+    }
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->prev->next=NULL;
+    free(temp);
+    return head;
+}
+struct node *delete_pos(struct node *head)
+{
+    struct node *temp;
+    int i,pos;
+    if(head==NULL)
+    {
+        printf("list is empty");
+        return head;
+    }
+    printf("enter position:\n");
+    scanf("%d",&pos);
+    if(pos<=0)
+    {
+        printf("invald position");
+        return head;
+    }
+    temp=head;
+    if(pos==1)
+    {
+        head=head->next;
+        if(head!=NULL)
+        {
+            head->prev=NULL;
+        }
+        free(temp);
+        return head;
+    }
+    for(i=1;i<pos&&temp!=NULL;i++)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL)
+    {
+        printf("position out of range");
+        return head;
+    }
+    if(temp->next!=NULL)
+    {
+        temp->next->prev=temp->prev;
+    }
+    if(temp->prev!=NULL)
+    {
+        temp->prev->next=temp->next;
+    }
+    free(temp);
+    return head;
+}
+int main()
+{
+    struct node *head=NULL;
+    int choice;
+    do
+    {
+        printf("\n----DOUBLE LINKED LIST----\n1.create\n2.display\n3.insert_beg\n4.insert_end\n5.insert_pos\n6.delete_beg\n7.delete_end\n8.delete_pos\n9.exit\nenter choice:\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:head=create();
+        break;
+        case 2:display(head);
+        break;
+        case 3:head=insert_beg(head);
+        break;
+        case 4:head=insert_end(head);
+        break;
+        case 5:head=insert_pos(head);
+        break;
+        case 6:head=delete_beg(head);
+        break;
+        case 7:head=delete_end(head);
+        break;
+        case 8:head=delete_pos(head);
+        break;
+        case 9:printf("pogram end");
+        break;
+        default:printf("invalid position.");
+            break;
+        }
+    } while(choice!=9);
+    return 0;
+}
+    */
+   

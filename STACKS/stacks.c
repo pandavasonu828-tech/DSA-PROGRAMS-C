@@ -680,7 +680,6 @@ int main()
             {
                 pop();
             }
-            
         }
         else
         {
@@ -1212,7 +1211,7 @@ int match(char open,char close)
     {
         return 1;
     }
-    if(open=='{}'&&close=='}')
+    if(open=='{'&&close=='}')
     {
         return 1;
     }
@@ -1231,6 +1230,31 @@ int main()
     for(i=0;exp[i]!='\0';i++)
     {
         ch=exp[i];
-        
+        if(ch=='('||ch=='{'||ch=='[')
+        {
+            push(ch);
+        }
+        else if(ch==')'||ch=='}'||ch==']')
+        {
+            if(top==-1)
+            {
+                printf("not balanced");
+                return 0;
+            }
+            if(match(pop(),ch)==0)
+            {
+                printf("not balanced");
+                return 0;
+            }
+        }
     }
+    if(top==-1)
+    {
+        printf("balanced expression");
+    }
+    else
+    {
+        printf("not balanced");
+    }
+    return 0;
 }

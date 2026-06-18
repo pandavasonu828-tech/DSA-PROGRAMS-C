@@ -13,11 +13,11 @@ int binarysearch(int arr[],int n,int target)
         }
         else if(arr[mid]<target)
         {
-            return low = mid+1;
+            low = mid+1;
         }
         else
         {
-           return high = mid-1; 
+           high = mid-1; 
         }
     }
     return -1;
